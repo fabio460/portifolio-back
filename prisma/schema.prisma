@@ -1,0 +1,86 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model Usuario {
+  id String @id @default(auto()) @map("_id") @db.ObjectId
+  email String
+  senha String
+  perfilTexto1 String
+  perfilNome String
+  perfilTexto3Subtitulo String
+  perfilTexto4 String
+  redesSociais RedesSociais[]
+  fotoDePerfil String
+  servicoText1 String
+  servicoText2 String
+  servicos Servicos[]
+  projetoTitulo String
+  projetoSubtitulo String
+  projetos Projetos[]
+  habilidadesTitulo String
+  habilidadesSubtitulo String
+  habilidades Habilidades[]
+  endereco String
+  contatos Contatos[]
+  curriculo String
+}
+
+model RedesSociais {
+    id String @id @default(auto()) @map("_id") @db.ObjectId
+    idUsuario String @db.ObjectId
+    usuario Usuario @relation(fields: [idUsuario], references: [id])
+    link String
+    imagem String
+}
+
+model Servicos {
+    id String @id @default(auto()) @map("_id") @db.ObjectId
+    idUsuario String @db.ObjectId
+    usuario Usuario @relation(fields: [idUsuario], references: [id])
+    icone String
+    titulo String
+    texto String
+}
+
+model Projetos {
+    id String @id @default(auto()) @map("_id") @db.ObjectId
+    idUsuario String @db.ObjectId
+    usuario Usuario @relation(fields: [idUsuario], references: [id])
+    descricao String
+    link String
+    imagem String
+}
+
+
+model Habilidades {
+    id String @id @default(auto()) @map("_id") @db.ObjectId
+    idUsuario String @db.ObjectId
+    usuario Usuario @relation(fields: [idUsuario], references: [id])
+    iconeSuperior String
+    quabtidadeDeEstrelas Int
+    texto String
+    iconeDaHabilidade String
+    tituloDaHabilidade String
+    subTituloDaHabilidade String
+}
+
+model Contatos {
+    id String @id @default(auto()) @map("_id") @db.ObjectId
+    idUsuario String @db.ObjectId
+    usuario Usuario @relation(fields: [idUsuario], references: [id])
+    icone String
+    contato String
+    link String
+}    
